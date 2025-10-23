@@ -1,0 +1,179 @@
+
+### **What is CSS in React?**
+
+React allows styling in multiple ways:
+
+1. **Normal CSS** – External `.css` file imported into a component.
+2. **Inline Styling** – Using a JS object inside the `style` attribute.
+3. **CSS Modules** – Scoped `.module.css` to avoid class conflicts.
+4. **Sass (SCSS)** – Advanced styling using variables, nesting, and mixins.
+
+### **What is Sass?**
+
+* Sass stands for **Syntactically Awesome Stylesheet**.
+* It is a **CSS preprocessor** that adds features like **variables, nesting, mixins, imports, and inheritance**.
+* File extension: `.scss`
+* Created by **Hampton Catlin** and developed by **Natalie Weizenbaum** in **2006**.
+* Helps make stylesheets **reusable, cleaner, and easier to maintain**.
+
+---
+
+## 🗂️ **Folder Structure**
+
+```
+my-app/
+ ┣ src/
+ ┃ ┣ App.js
+ ┃ ┣ App.css
+ ┃ ┣ App.scss
+ ┃ ┗ index.js
+```
+
+---
+
+## 💻 **PROGRAM CODE**
+
+### **App.css**
+
+```css
+.container {
+  text-align: center;
+  background-color: #f9f9f9;
+  padding: 20px;
+}
+
+.title {
+  color: #2c3e50;
+  font-size: 2rem;
+}
+```
+
+---
+
+### **App.scss**
+
+```scss
+$list-color: #27ae60;
+
+.data-list {
+  list-style: none;
+  padding: 0;
+
+  li {
+    background: lighten($list-color, 30%);
+    margin: 8px 0;
+    padding: 10px;
+    border-radius: 6px;
+    font-weight: bold;
+
+    &:hover {
+      background: darken($list-color, 10%);
+      color: #fff;
+      cursor: pointer;
+    }
+  }
+}
+```
+
+---
+
+### **App.js**
+
+```javascript
+import React from "react";
+import "./App.css";   // Normal CSS
+import "./App.scss";  // Sass Styling
+
+function App() {
+  const fruits = ["Apple", "Banana", "Cherry", "Mango", "Orange"];
+
+  return (
+    <div className="container">
+      <h1 className="title">Fruit List</h1>
+      <ul className="data-list">
+        {fruits.map((fruit, index) => (
+          <li key={index}>{fruit}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default App;
+```
+
+---
+
+## ⚙️ **Execution Steps**
+
+### **Step 1:** Create React Project
+
+```bash
+npx create-vite my-react-app --template react
+```
+
+### **Step 2:** Go to project folder
+
+```bash
+cd my-react-app
+```
+
+### **Step 3:** Install dependencies
+
+```bash
+npm install
+```
+
+### **Step 4:** Install Sass
+
+```bash
+npm install sass
+```
+
+### **Step 5:** Run the project
+
+```bash
+npm run dev
+```
+
+You’ll see:
+
+```
+VITE v7.1.6  ready in 508 ms
+Local:   http://localhost:5173/
+```
+
+### **Step 6:** Open in browser
+
+Go to 👉 **[http://localhost:5173/](http://localhost:5173/)**
+
+---
+
+## 🖼️ **OUTPUT**
+
+```
+---------------------------------------
+           Fruit List
+---------------------------------------
+ Apple
+ Banana
+ Cherry
+ Mango
+ Orange
+---------------------------------------
+```
+
+✅ When you hover over each fruit, the background color darkens and text turns white (Sass hover effect).
+
+---
+
+## 🧠 **Summary (Key Points)**
+
+* CSS improves layout and visuals of React components.
+* Sass adds variables, nesting, and reusable styling power.
+* `npm install sass` enables `.scss` usage in React.
+* Hover effects and color variables are managed neatly in Sass.
+
+---
+
+Would you like me to format this as a **lab record (with experiment number, aim, code boxes, and output screenshot placeholder)** for college submission?
