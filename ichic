@@ -1,0 +1,28 @@
+int addNumbers(int a, int b) { 
+  return a + b; 
+} 
+
+void main() { 
+  // 1. Print your name 
+  String name = "Chandini";   // you can replace with your own name 
+  print("My name is $name"); 
+
+  // 2. Check age with conditionals 
+  int age = 22;   // change value to test 
+  if (age >= 18) { 
+    print("You are an adult."); 
+  } else { 
+    print("You are a minor."); 
+  } 
+
+  // 3. Loop to count from 1 to 5 
+  print("Counting from 1 to 5:"); 
+  for (int i = 1; i <= 5; i++) { 
+    print(i); 
+  } 
+
+  // 4. Use the sum function 
+  int x = 10, y = 20; 
+  int result = addNumbers(x, y); 
+  print("The sum of $x and $y is $result"); 
+}
