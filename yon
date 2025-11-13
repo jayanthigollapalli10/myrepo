@@ -1,0 +1,55 @@
+from sklearn.datasets import fetch_20newsgroups
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.cluster import KMeans
+from sklearn.metrics import confusion_matrix
+import numpy as np
+
+
+categories = ['alt.atheism', 'comp.graphics', 'sci.space', 'talk.politics.misc']
+newsgroups = fetch_20newsgroups(subset='all', categories=categories)
+
+vectorizer = TfidfVectorizer(stop_words='english')
+X = vectorizer.fit_transform(newsgroups.data)
+
+
+num_clusters = len(categories)
+kmeans = KMeans(n_clusters=num_clusters, random_state=42)
+kmeans.fit(X)
+
+
+true_labels = newsgroups.target
+predicted_labels = kmeans.labels_
+
+
+conf_matrix = confusion_matrix(true_labels, predicted_labels)
+purity = np.sum(np.amax(conf_matrix, axis=0)) / np.sum(conf_matrix)
+
+
+def compute_metrics(conf_matrix):
+    precision_list, recall_list, f_list = [], [], []
+
+    for i in range(conf_matrix.shape[1]):
+        cluster = conf_matrix[:, i]
+        tp = np.max(cluster)
+        fp = np.sum(cluster) - tp
+        fn = np.sum(conf_matrix[np.argmax(cluster), :]) - tp
+
+        precision = tp / (tp + fp + 1e-9)
+        recall = tp / (tp + fn + 1e-9)
+        f_measure = 2 * precision * recall / (precision + recall + 1e-9)
+
+        precision_list.append(precision)
+        recall_list.append(recall)
+        f_list.append(f_measure)
+
+    return np.mean(precision_list), np.mean(recall_list), np.mean(f_list)
+
+precision, recall, f_measure = compute_metrics(conf_matrix)
+
+# 7️⃣ Display results
+print("===== K-Means Text Document Clustering =====")
+print(f"Number of clusters: {num_clusters}")
+print(f"Purity: {purity:.4f}")
+print(f"Precision: {precision:.4f}")
+print(f"Recall: {recall:.4f}")
+print(f"F-Measure: {f_measure:.4f}")
