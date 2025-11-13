@@ -1,0 +1,95 @@
+7. Program to Implement Sliding Window Protocol – Selective Repeat
+✅ SENDER SIDE PROGRAM
+import socket
+import random
+import time
+
+s = socket.socket()
+s.bind(("localhost", 8038))
+s.listen(5)
+c, adr = s.accept()
+
+print("From address", str(adr), "connection has been established")
+
+n = int(input("Enter number of frames: "))
+N = int(input("Enter window size: "))
+
+seq = 1            # Starting sequence number
+frame = 1          # First frame to send
+
+# Send the first window of frames
+for i in range(N):
+    print("Frames sent ->", frame)
+    c.send(str(frame).encode())
+    frame += 1
+    time.sleep(2)
+
+timer = 5          # For acknowledgement comparison
+
+# Continue sending frames until all are sent
+while frame <= n:
+    t = random.randint(1, 7)
+    msg = c.recv(1).decode()
+    msg = int(msg)
+
+    print("Frame", msg)
+
+    if timer > t:
+        print("Acknowledgement received")
+        print("Frames sent ->", frame)
+        c.send(str(frame).encode())
+        seq += 1
+        frame += 1
+        time.sleep(2)
+    else:
+        print("Acknowledgement not received")
+        print("Frames sent ->", msg)
+        c.send(str(msg).encode())
+        time.sleep(2)
+
+✅ RECEIVER SIDE PROGRAM
+import socket
+import time
+
+s = socket.socket()
+s.connect(("localhost", 8038))
+
+while True:
+    msg = s.recv(2).decode()
+    print("Received -->", int(msg))
+    s.send(str(msg).encode())
+    time.sleep(1)
+
+OUTPUT:
+SENDER SIDE:
+
+Enter number of frames: 8
+Enter window size: 4
+Frames sent -> 1
+Frames sent -> 2
+Frames sent -> 3
+Frames sent -> 4
+Frame 1
+acknowledgement not received
+Frames sent -> 1
+Frame 2
+acknowledgement received
+Frames sent -> 5
+Frame 3
+acknowledgement received
+Frames sent -> 6
+Frame 4
+acknowledgement received
+Frames sent -> 7
+Frame 1
+acknowledgement not received
+Frames sent -> 1
+Frame 5
+acknowledgement received
+Frames sent -> 8
+
+RECEIVER SIDE:
+
+Received --> 7
+Received --> 1
+Received --> 8
