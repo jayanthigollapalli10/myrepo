@@ -1,0 +1,25 @@
+import networkx as nx
+
+# Example scholarly citation network
+# Each node is a paper, edges represent citations
+citations = {
+    "Paper1": ["Paper2", "Paper3"],
+    "Paper2": ["Paper3"],
+    "Paper3": ["Paper1"],
+    "Paper4": ["Paper2", "Paper3"],
+    "Paper5": ["Paper3", "Paper4"]
+}
+
+# Build directed graph
+G = nx.DiGraph()
+
+for paper, cited_papers in citations.items():
+    for cited in cited_papers:
+        G.add_edge(paper, cited)
+
+# Compute PageRank
+pagerank_scores = nx.pagerank(G, alpha=0.85, max_iter=100)
+
+print("\nPageRank Scores:")
+for paper, score in pagerank_scores.items():
+    print(f"{paper}: {score:.4f}")
